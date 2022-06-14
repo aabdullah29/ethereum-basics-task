@@ -1,0 +1,174 @@
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity ^0.8.0;
+
+contract CodeEaterBasics
+{
+    // Functions
+    string name ;
+    uint age ;
+    // string public city;
+
+    constructor()
+    {
+        name = "abdullah";
+        age = 27;
+    }
+
+    ////Functions
+    // function getName() public view returns(string memory) { return name; }
+    // function getAge() public view returns(uint) { return age; }
+
+    // function setAge(uint _age) public { age = _age; }
+    // function setName(string memory _name) public { name = _name; }
+
+    // function setName() private pure returns (string memory){ string memory _name = "Abdullah Shahid"; return _name; }
+    // function get_Name() public returns(string memory) { name = setName(); return name; }
+
+    // function getSumAndSubtract(uint a, uint b) public pure returns(uint sum, uint subtract)
+    // { 
+    //     (sum = a + b, subtract = a - b);
+    // }
+    // function getSum() public pure returns(uint sum) { sum = 100; }
+
+
+
+    ////Array
+    // uint[2] public arr_fix= [0,1];
+    // uint[] public arr_daynamic;
+
+    // function setArray(uint8 index, uint8 value) public { arr_fix[index] = value;}
+    // function getArrayLength() public view returns(uint) { return arr_fix.length;}
+
+    // function pushDaynamicArray(uint value) public { arr_daynamic.push(value); }
+    // function popDaynamicArray() public { arr_daynamic.pop(); }
+    // function getDaynamicArrayLength() public view returns(uint) { return arr_daynamic.length; }
+
+
+
+    ////Bytes Array
+    // bytes1 public b1;
+    // bytes2 public b2;
+    // bytes3 public b3;
+    // //Bytes Array daynamic
+    // bytes public dynamicBytesArray = "abc";
+
+    ////Byte Array hexadecimal and padding with zeero
+    // function setBytesArrayB1() public{ b1 = '1';}
+    // function setBytesArrayB2() public{ b2 = 'ab';}
+    // function setBytesArrayB3() public{ b3 = 'ab';}
+
+    // function pushDynamicBytesArrayB3() public { dynamicBytesArray.push("z");}
+    // function popDynamicBytesArrayB3() public { dynamicBytesArray.pop();}
+    // function getDynamicBytesArrayB3(uint index) public view returns(bytes1) { return dynamicBytesArray[index];}
+    // function getDynamicBytesArrayB3Length() public view returns(uint) { return dynamicBytesArray.length;}
+
+
+    
+    ////Structure
+    // struct Student{
+    //     uint roleNo;
+    //     string name;
+    // }
+    // Student public s1;
+
+    // function setStudent(uint _r, string memory _n) public 
+    // { 
+    //     s1.roleNo = _r; 
+    //     s1.name = _n;
+
+    //     Student memory newS1 = Student({roleNo:_r, name:_n});
+    //     s1 = newS1;
+    // }
+
+
+    
+    ////Enum
+    // enum Gender{
+    //     mail,
+    //     femail
+    // }
+    // Gender public gender;
+
+    // function setGender() public returns(Gender){ return gender = Gender.femail; }
+
+    // function checkGender() public  view  returns(string memory result)
+    // {
+    //     if(gender == Gender.mail){
+    //         return "It's Mail.";
+    //     }else if(gender == Gender.femail){
+    //         return "It's Femail.";
+    //     }
+    // }
+
+
+
+
+    ////Mapping (key=>value)
+    // mapping(string=>string[]) public studentsMap;
+
+    // mapping(string=>string[]) public studentsMap;
+
+    // function setMapping(string memory class, string[] memory students) public 
+    // {
+    //     studentsMap[class] = students;
+    // }
+
+
+
+    ////Storage and Memory
+    // string[] public testStorageVsMemory1 = ["aaa", "bbb", "ccc"];
+    // string[] public testStorageVsMemory2 = ["abc", "def", "ghi"];
+
+    // function testStorage() public
+    // {
+    //     string[] storage temp = testStorageVsMemory1;
+    //     temp[0] = "testStorage";
+    // }
+
+    // function testMemory() public view 
+    // {
+    //     string[] memory temp = testStorageVsMemory1;
+    //     temp[0] = "testMemory";
+    // }
+
+    // function testStogareToStorage() public 
+    // { 
+    //     testStorageVsMemory1 = testStorageVsMemory2;
+    //     testStorageVsMemory2[0] = "zzz"; 
+    // }
+
+
+
+
+    ////Global Methods
+    // function globalMethods() public view 
+    // returns(uint BlockNo, uint TimeStamp, address MsgSender)
+    // {
+    //     return (block.number, block.timestamp, msg.sender);
+    // }
+
+
+
+
+    //Payable 
+    //send ether to this contract account
+    function payEther()  public payable
+    {
+
+    }
+
+    function getBalance()  public view returns(uint)
+    {
+        return address(this).balance;   
+    }
+
+    //send to an other account
+    address payable user = payable(0x5B38Da6a701c568545dCfcB03FcB875f56beddC4);
+    
+    function sendEtherToAccount() public
+    {
+        user.transfer(1 ether);
+    }
+
+}

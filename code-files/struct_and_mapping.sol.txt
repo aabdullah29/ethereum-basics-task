@@ -1,0 +1,83 @@
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity ^0.8.0;
+import "hardhat/console.sol";
+
+contract Temp{
+    struct User{
+        uint256 user_id;
+        string name;
+        uint account;
+        bytes32 addres;
+        bytes32 birth_day;
+    }
+
+    mapping (uint=>User) public users;
+    uint accountUsers;
+
+    constructor(){
+        console.log("test");
+    }
+
+    function addUser() public {
+        users[accountUsers].name = "name";
+        users[accountUsers].account = accountUsers;
+        accountUsers++;
+    }
+
+    function getUserConsole() public view {
+        // console.log(students[1]);
+        console.log(users[1].name);
+        console.log(users[1].account);
+    }
+
+    function getUser(uint _userId) public view returns(User memory) {
+        return users[_userId];
+    }
+
+
+    function getUsers() public view returns (User[] memory){
+        User[]    memory userArr = new User[](accountUsers);
+        for (uint i = 0; i < accountUsers; i++) {
+            User storage u = users[i];
+            userArr[i] = u;
+        }
+        return userArr;
+    }
+
+
+
+    struct User{
+        bool flag;
+        uint balance;
+    }
+
+    mapping(address=>User) public user;
+    address[] users;
+
+    function setUser() public{
+        user[0xc1a301D20D978C176A1A6E6C5a3786d838DCAcA5].balance=10;
+        user[0xc1a301D20D978C176A1A6E6C5a3786d838DCAcA5].flag=true;
+        users.push(0xc1a301D20D978C176A1A6E6C5a3786d838DCAcA5);
+        user[0x2049bAa68c7CBd2cFb16c9bdaeEbbAda20811c3B].balance=20;
+        user[0x2049bAa68c7CBd2cFb16c9bdaeEbbAda20811c3B].flag=true;
+        users.push(0x2049bAa68c7CBd2cFb16c9bdaeEbbAda20811c3B);
+        user[0x1777C3A5A9b1E90D827A40C8C06D9D44fB3c0f85].balance=30;
+        user[0x1777C3A5A9b1E90D827A40C8C06D9D44fB3c0f85].flag=true;
+        users.push(0x1777C3A5A9b1E90D827A40C8C06D9D44fB3c0f85);
+    }
+
+    function setByUser(address _address, uint _balance) public {
+        user[_address].balance= _balance;
+        if(!user[_address].flag){
+            user[_address].flag=true;
+            users.push(_address);
+        }
+    }
+
+    function getOneUser(uint _index) public view returns(address, uint) {
+        require(user[users[_index]].flag);
+        return (users[_index], user[users[_index]].balance);
+    }
+    
+}

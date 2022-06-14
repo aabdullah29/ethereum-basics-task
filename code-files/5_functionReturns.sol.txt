@@ -1,0 +1,51 @@
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity >=0.7.0 <0.9.0;
+
+contract variables{
+    int constant CONSTANT_AGE = 40; // its internal
+    int internal constant CONSTANT_AGE_2 = 40;
+    int private constant CONSTANT_AGE_3 = 40;
+    int public constant CONSTANT_AGE_4 = 40;
+    int constant private CONSTANT_AGE_5 = 40;
+
+    int age = 45;
+    bool isFeePaid = true;
+    string name = "Zeeshan";
+    address myaccount = 0xAf8C299e754F7D418e47F6680036ddbf6C888EED;
+    bytes1 b = "A";
+    mapping (int => string) list;
+
+
+
+    function setAge(int a) public{}
+    function getAge(int a) public pure returns (int){
+        return a;
+        }
+
+    
+    function getAge(int aa , int bb) public pure returns (int, int){
+        // Not allowed to change state variables
+        // age = 10;
+        return (aa, bb);
+        }
+
+    function getAge(int aaa , bool bbb) public pure returns (int aaaa, bool bbbb){
+        // Not allowed to change state variables
+        // age = 10;
+        (aaaa, bbbb) = (aaa, bbb);
+        }
+
+
+    function receivePayment() public payable {
+        // No logic needed
+        }
+
+
+    uint public myBalance;
+    function receivePayment2() public payable {
+        //msg.value contains ether from sender
+        //we can store value in state variable   
+    myBalance += msg.value;
+    }
+}

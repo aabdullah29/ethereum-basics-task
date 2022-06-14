@@ -1,0 +1,167 @@
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.4;
+
+contract First {
+    //Rule 1
+    //storage   
+    uint stateVariable;   
+    uint[] stateArray;   
+    // uint[] storage stateVariable1; // error    
+    // uint[] memory stateArray1; // error
+
+
+    //Rule 2
+    //1.These parameters are stored in memory
+    function getValuesRule2_1(uint a, bool b) public pure returns (uint) {
+        if(b){}
+        return a;
+        }
+
+    //2.Must specify memory keyword for reference data type in function parameter
+    function getValuesRule2_2(string memory a) public pure returns(uint) {
+        a = "";
+        return 56;
+        }
+
+
+    //Rule 3
+    //A.Variables declared within functions with a value type are stored in the memory
+    function getValuesRule3_1() public pure {
+        // value types
+        // by defalut stored in the memory   
+        int a = 67;   
+        a = 0;
+        bool b = false;
+        b = true;
+        }
+
+    //B.For a reference type, you need to specify the data location (memory or storage) explicitly
+    function getValuesRule3_2() public pure {
+        // must specify data location   
+        int[3] memory a;
+        a = [int(1),2,3];   
+        string memory b;
+        b = "Hello";
+        }
+
+    //C.Reference types declared within a function with storage data location should always point to a state variable
+    string name = "Hello";
+    function getValuesRule3_3() public view {
+        // must refer to state variable, error otherwise   
+        string storage b;
+        b = name;
+        }
+
+    //D.Value types declared in a function cannot be stored at the storage location
+    function getValuesRule3_4() public pure {
+        // value types// storage location not allowed  
+        //int storage a = 67;   // error  
+        //bool storage b = false; // error
+        }
+
+    //E
+    mapping (int => string) names;
+    function getValuesRule3_5() public {
+        // works fine
+        mapping (int => string) storage list = names;   
+        list[1] = "test";
+        }
+
+    function getValuesRule3_6() public pure {
+        // not allowed
+        //mapping (int => string) names; // error
+        //mapping (int => string) memory list; //error
+        //mapping (int => string) storage list1; //error
+        }
+
+
+    //Rule 4 Arguments supplied by callers to function parameters are always stored in a calldata data location.
+    
+    //Rule 5
+    //1.Assignment of value type from state to state creates copy
+    int public rule5StateVar1 = 10;
+    int public rule5StateVar2 = 20;
+    function getValuesRule5_1() public returns (int) {   
+        rule5StateVar1 = rule5StateVar2;   
+        rule5StateVar2 = 60;
+        return rule5StateVar1;// 20
+        }
+
+    //2.Assignment of reference type from state to state creates copy
+    int[2] rule5StateVar3 = [int(1),2];
+    int[2] rule5StateVar4 = [int(3),4];
+    function getValuesRule5_2() public returns (int) {   
+        rule5StateVar3 = rule5StateVar4;   
+        rule5StateVar4[1] = 10;
+        return rule5StateVar3[1];  // returns 4
+        }
+
+
+    //Rule 6
+    //1.Assignment of value type from memory to state creates copy
+    int public rule6StateVar1 = 10;
+    function getValuesRule6_1() public returns (int) {   
+        int rule6LocalVar = 20;   
+        rule6StateVar1 = rule6LocalVar;   
+        rule6LocalVar = 60;
+        return rule6StateVar1;  // return 20
+        }
+
+    //2.Assignment of reference type from memory to state creates copy
+    int[2] rule6StateVar2 = [int(1),2];
+    function getValuesRule6_2() public returns (int) { 
+        int[2] memory rule6LocalVar1 = [int(3),4];   
+        rule6StateVar2 = rule6LocalVar1;   
+        rule6LocalVar1[1] = 10;
+        return rule6StateVar2[1];  // returns 4
+        }
+
+
+    //Rule 7
+    //1.Assignment of value type from state to memory creates copy
+    int public rule7StateVar1 = 10;
+    function getValuesRule7_1() public returns (int) {   
+        int rule7LocalVar = 20;   
+        rule7LocalVar = rule7StateVar1;   
+        rule7StateVar1 = 60;
+        return rule7LocalVar;  // return 10
+        }
+
+    //2.Assignment of reference type from state to memory creates copy
+    int[2] rule7StateVar2 = [int(1),2];
+    function getValuesRule7_2() public returns (int) {   
+        int[2] memory rule7LocalVar1 = [int(3),4];   
+        rule7LocalVar1 = rule7StateVar2;   
+        rule7StateVar2[1] = 10;
+        return rule7LocalVar1[1];  // returns 2
+        }
+
+    //Rule 8
+    //1.Assignment of value type from memory to memory creates copy
+    function getValuesRule8_1() public pure returns (int) {   
+        int rule8LocalVar1 = 20;   
+        int rule8LocalVar2 = 30;   
+        rule8LocalVar1 = rule8LocalVar2;   
+        rule8LocalVar2 = 60;
+        return rule8LocalVar1;  // return 30
+        }
+
+    //2.Assignment of reference type from memory to memory DO NOT create copy so change in one will update another
+    function getValuesRule8_2() public pure returns (int) {   
+        int[2] memory rule8LocalVar1 = [int(1),2];   
+        int[2] memory rule8LocalVar2 = [int(3),4];   
+        rule8LocalVar1 = rule8LocalVar2;   
+        rule8LocalVar2[1] = 10;
+        return rule8LocalVar1[1];  // returns 10
+        }
+
+    //Rule 9
+    //1.Assignment of reference type from storage to local storage DO NOT creates copy
+    uint[2] stateVarRule9 = [1,2];
+    function getValuesRule9() public returns (uint) {   
+        uint[2] storage localVarRule9 = stateVarRule9;   
+        stateVarRule9[1] = 10;
+        return localVarRule9[1];  // returns 10
+        }
+
+    }

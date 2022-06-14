@@ -1,0 +1,139 @@
+NFT Address: 0x948c16a706fabfa13e7400527cda764865d2aa6daee5a8f9070ecb20814eb816
+NFT Contract Address: 0xA27aC62C0b922111e227d408E1A5d6DC3C049574
+
+
+
+
+
+npm init --yes
+npm install --save-dev hardhat
+npm install @openzeppelin/contracts
+// use for connect MetaMask to Alchemy
+npm install dotenv --save
+
+**
+create .env file in root directory
+and get project http link for API from Alchemy
+Click on "our project" and click on "View Key" and copy "HTTP Link"
+Then Copy "Private key" From MetaMask
+.env File
+API_URL=""
+PRIVATE_KEY=""
+PUBLIC_Key=""
+**
+ 
+
+
+
+npm install --save-dev @nomiclabs/hardhat-ethers 'ethers@^5.0.0'
+
+
+
+
+***
+copy this in "hardhat.confog.js"
+/**
+ * @type import('hardhat/config').HardhatUserConfig
+ */
+require("dotenv").config();
+require("@nomiclabs/hardhat-ethers");
+const { API_URL, PRIVATE_KEY } = process.env;
+module.exports = {
+  solidity: "0.8.7",
+  defaultNetwork: "ropsten",
+  networks: {
+    hardhat: {},
+    ropsten: {
+      url: API_URL,
+      accounts: [`0x${PRIVATE_KEY}`],
+    },
+  },
+};
+***
+
+
+
+
+
+npx hardhat compile
+
+
+
+
+****
+create new file in scripts folder "deploy.js"
+and past the following code
+
+async function main() {
+    const NFT721Token = await ethers.getContractFactory("NFT721Token");
+
+    // Start deployment, returning a promise that resolves to a contract object
+    const nFT721Token = await NFT721Token.deploy();
+    console.log("Contract deployed to address:", nFT721Token.address);
+}
+
+main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
+  //0x271D2BeB5db7266Cd34D512C8F8c06AD247fab4a
+****
+
+
+
+
+npx hardhat run scripts/deploy.js  --network ropsten
+
+
+it will give the contract deploy address
+Contract deployed to address: 0xA27aC62C0b922111e227d408E1A5d6DC3C049574
+
+
+
+npm install @alch/alchemy-web3
+
+
+
+
+***** 
+then create "mint-nft.js" file in scripts folder and past the following code
+
+
+*****
+node scripts/mint-nft.js  
+
+
+
+
+
+
+******
+then create "nft-metadata.json" file in root folder and past the following code
+im mian pinata py uploaded file ka url waghera h
+
+{
+    "attributes": [
+        {
+            "color": "Blue",
+            "value": "ABC"
+        }
+    ],
+    "description": "This is one of my fav DP.",
+    "image": "https://gateway.pinata.cloud/ipfs/QmY5hbGntQwvBchGa9S3smDwG6inf7XitbfHdmCLX7rnt9",
+    "name": "DP"
+}
+
+
+******
+
+
+node scripts/mint-nft.js  
+
+
+The hash of your transaction is:  0x948c16a706fabfa13e7400527cda764865d2aa6daee5a8f9070ecb20814eb816
+
+
+
+this is our nft contract address: 0x948c16a706fabfa13e7400527cda764865d2aa6daee5a8f9070ecb20814eb816
