@@ -1,0 +1,22 @@
+new_contract.on("Count", (count) => {console.log(count);})
+res = await new_contract.event("Count")
+res.wait
+res
+res = await new_contract.inc(10)
+await new_contract.count()
+await new_contract.inc(10)
+await new_contract.count()
+new_contract
+await new_contract.count()
+await new_contract.count(10)
+await new_contract.count()
+await new_contract.inc()
+await new_contract.count()
+new_contract.count()
+new_contract.inc()
+new_contract.address
+new_contract
+const new_contract = await New.deploy();
+New
+const New = await hre.ethers.getContractFactory("New");
+ethers
